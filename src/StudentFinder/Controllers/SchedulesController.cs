@@ -19,6 +19,10 @@ namespace StudentFinder.Controllers
             _context = context;    
         }
 
+        // GetPeriod method
+
+       
+
         // Get Schedule
         public async Task<IActionResult> Index()
         {

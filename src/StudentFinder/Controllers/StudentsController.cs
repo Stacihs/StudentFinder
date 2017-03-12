@@ -29,8 +29,8 @@ namespace StudentFinder.Controllers
             var spaceList = _context.Space.OrderBy(s => s.Room).Select(a => new { id = a.Id, value = a.Room }).ToList();
             ViewBag.SpaceSelectList = new SelectList(spaceList, "id", "value");
 
-            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.Label }).ToList();
-            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value");
+            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
+            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
 
 
 
