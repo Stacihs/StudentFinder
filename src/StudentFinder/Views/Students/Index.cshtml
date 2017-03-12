@@ -1,0 +1,82 @@
+@model IEnumerable<StudentFinder.Models.Student>
+
+@{
+    ViewData["Title"] = "Index";
+    SelectList spaceList = ViewBag.SpaceSelectList;
+    SelectList scheduleList = ViewBag.ScheduleSelectList;
+
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <form method="post" id="SearchString" action="@Url.Action("Index", "Students")">
+                    <div class="form-group no-color has-feedback">
+                        <input class="form-control hasclear" type="text" id="SearchString" name="SearchString" value="@ViewData["currentFilter"]" />
+                        <span class="clearer gliphyicon gliphyicon-remove form-control-feedback"></span>
+                    </div>
+                </form>
+            </th>
+            <th>
+                <form method="post" id="spaceFilter" action="@Url.Action("Index", "Students")">
+                   @Html.DropDownList("spaceListFiltet", spaceList, "All", new { @class = "form-control", @style = "width: 16rem; display:inline-block" })
+                </form>
+            </th>
+            @*<th>
+                <form method="post" id="scheduleFilter" action="@Url.Action("Index", "Students")">
+                    @Html.DropDownList("scheduleListFiltet", scheduleList, "All", new { @class = "form-control", @style = "width: 16rem; display:inline-block" })
+                </form>
+            </th>*@
+        </tr>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.GradeLevel)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentSchoolId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.StudentsSchool)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.fName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.lName)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.GradeLevel)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentSchoolId)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.StudentsSchool)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.fName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.lName)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
