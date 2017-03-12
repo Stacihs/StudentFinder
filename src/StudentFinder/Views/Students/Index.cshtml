@@ -1,4 +1,4 @@
-@model IEnumerable<StudentFinder.Models.Student>
+@model IEnumerable<StudentFinder.Models.ViewModels.StudentsViewModel>
 
 @{
     ViewData["Title"] = "Index";
@@ -25,7 +25,7 @@
             </th>
             <th>
                 <form method="post" id="spaceFilter" action="@Url.Action("Index", "Students")">
-                   @Html.DropDownList("spaceListFiltet", spaceList, "All", new { @class = "form-control", @style = "width: 16rem; display:inline-block" })
+                   @Html.DropDownList("spaceListFilter", spaceList, "All", new { @class = "form-control", @style = "width: 16rem; display:inline-block" })
                 </form>
             </th>
             @*<th>
@@ -40,9 +40,6 @@
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.StudentSchoolId)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.StudentsSchool)
             </th>
             <th>
                 @Html.DisplayNameFor(model => model.fName)
@@ -63,20 +60,39 @@
                 @Html.DisplayFor(modelItem => item.StudentSchoolId)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.StudentsSchool)
-            </td>
-            <td>
                 @Html.DisplayFor(modelItem => item.fName)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.lName)
             </td>
             <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                <a asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
             </td>
         </tr>
 }
     </tbody>
 </table>
+@section scripts
+{
+    <script>
+    $(document).ready(function(){
+        $("#spacelistFilter").change(function () {
+            $("#spaceFilter").submit();
+        });
+
+        $(".hasclear").keyup(function () {
+            var t = $(this);
+            t.next('span').toggle(Boolean(t.val()));
+        });
+
+        $(".clearer").hide($(this).prev('input').val());
+
+        $(".clearer").click(function () {
+            $(this).prev('input').val('').focus();
+            $(this).hide();
+        });
+    });
+    </script>
+}
