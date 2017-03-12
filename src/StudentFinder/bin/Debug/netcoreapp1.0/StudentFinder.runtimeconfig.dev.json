@@ -1,7 +1,11 @@
 {
   "runtimeOptions": {
     "additionalProbingPaths": [
-      "C:\\Users\\IEUser\\.nuget\\packages"
+<<<<<<< HEAD
+      "C:\\Users\\Curt Arbtin\\.nuget\\packages"
+=======
+      "C:\\Users\\krumm\\.nuget\\packages"
+>>>>>>> d26669db82030e2736c66ea72f0668bcdf9c0804
     ]
   }
 }
