@@ -19,13 +19,13 @@ namespace StudentFinder.Controllers
             _context = context;    
         }
 
-        // GET: Schedules
+        // Get Schedule
         public async Task<IActionResult> Index()
         {
             return View(await _context.Schedule.ToListAsync());
         }
 
-        // GET: Schedules/Details/5
+        // GET  Period Details
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -42,13 +42,13 @@ namespace StudentFinder.Controllers
             return View(schedule);
         }
 
-        // GET: Schedules/Create
+        // GET Create Period
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: Schedules/Create
+        // POST Create Period
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -64,7 +64,7 @@ namespace StudentFinder.Controllers
             return View(schedule);
         }
 
-        // GET: Schedules/Edit/5
+        // GET Edit Period
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -80,7 +80,7 @@ namespace StudentFinder.Controllers
             return View(schedule);
         }
 
-        // POST: Schedules/Edit/5
+        // POST Edit Period
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
@@ -115,7 +115,7 @@ namespace StudentFinder.Controllers
             return View(schedule);
         }
 
-        // GET: Schedules/Delete/5
+        // GET Delete Period
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -132,7 +132,7 @@ namespace StudentFinder.Controllers
             return View(schedule);
         }
 
-        // POST: Schedules/Delete/5
+        // POST: Delete Period
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
