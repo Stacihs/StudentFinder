@@ -13,6 +13,8 @@ namespace StudentFinder.Models.ViewModels
         public string fName { get; set; }
         public string lName { get; set; }
         public string GradeLevel { get; set; }
+        public string StudentSchoolId { get; set; }
+        
 
         //Space Info
         public int SpaceId { get; set; }
