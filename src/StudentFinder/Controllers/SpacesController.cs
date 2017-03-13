@@ -16,14 +16,66 @@ namespace StudentFinder.Controllers
 
         public SpacesController(StudentFinderContext context)
         {
-            _context = context;    
+            _context = context;
         }
 
         // GET: Spaces
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string sortOrder, string currentFilter,
+            string searchString, int? page)
         {
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["RoomSortParm"] = String.IsNullOrEmpty(sortOrder) ? "room_desc" : "";
+            ViewData["LocationSortParm"] = sortOrder == "location" ? "location_desc" : "Location";
+            ViewData["DescriptionSortParm"] = sortOrder == "description" ? "description_desc" : "Description";
+
+            if (searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["CurrentFilter"] = searchString;
+
+            var space = from s in _context.Space
+                        select s;
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                space = space.Where(s => s.Room.Contains(searchString));
+                //|| s.Description.Contains(searchString));
+            }
+            switch (sortOrder)
+            {
+                case "room_desc":
+                    space = space.OrderByDescending(s => s.Room);
+                    break;
+                case "location":
+                    space = space.OrderBy(s => s.Location);
+                    break;
+
+                case "location_desc":
+                    space = space.OrderByDescending(s => s.Location);
+                    break;
+                case "description":
+                    space = space.OrderBy(s => s.Description);
+                    break;
+
+                case "description_desc":
+                    space = space.OrderByDescending(s => s.Description);
+                    break;
+                default:
+                    space = space.OrderBy(s => s.Id);
+                    break;
+
+            }
+
             return View(await _context.Space.ToListAsync());
+
+
         }
+
 
         // GET: Spaces/Details/5
         public async Task<IActionResult> Details(int? id)
