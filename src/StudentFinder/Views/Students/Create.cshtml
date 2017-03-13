@@ -1,10 +1,12 @@
 @model StudentFinder.Models.Student
 
+@using StudentFinder.Models
+
 @{
     ViewData["Title"] = "Create";
     SelectList spaceList = ViewBag.SpaceSelectList;
     SelectList gradeLevel = ViewBag.gradeLevelSelectList;
-
+    SelectList scheduleList = ViewBag.ScheduleSelectList;
 
 }
 
@@ -16,17 +18,17 @@
         <hr />
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         @*<div class="form-group">
-            <label asp-for="GradeLevel" class="col-md-2 control-label"></label>
-            <div class="col-md-10">
-                <input asp-for="GradeLevel" class="form-control" />
-                <span asp-validation-for="GradeLevel" class="text-danger" />
-            </div>
-        </div>*@
+                <label asp-for="GradeLevel" class="col-md-2 control-label"></label>
+                <div class="col-md-10">
+                    <input asp-for="GradeLevel" class="form-control" />
+                    <span asp-validation-for="GradeLevel" class="text-danger" />
+                </div>
+            </div>*@
 
         <div class="form-group">
-           <label asp-for="GradeLevel" class="col-md-2 control-label"></label>
+            <label asp-for="GradeLevel" class="col-md-2 control-label"></label>
             <div class="col-md-10">
-                @Html.DropDownList( "gradelevel", gradeLevel, new { @class = "form-control"})
+                @Html.DropDownList("gradelevel", gradeLevel, new { @class = "form-control" })
 
             </div>
         </div>
@@ -59,12 +61,30 @@
             </div>
         </div>
         <div class="form-group">
-             <label asp-for="IsActive" class="col-md-2 control-label"></label>
+            <label asp-for="IsActive" class="col-md-2 control-label"></label>
             <div>
                 <input asp-for="IsActive" class="checkbox" />
                 <span asp-validation-for="IsActive" class="text-danger"></span>
             </div>
         </div>
+
+        <table>
+            <tbody>
+                @foreach (var item in scheduleList)
+                {
+                    <tr>
+                        <td>
+                            @*@Html.DisplayFor(x => item.id)
+                            @Html.DisplayFor(x => item.Group)*@
+                        </td>
+                    </tr>
+                }
+
+            </tbody>
+        </table>
+
+
+
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">
                 <input type="submit" value="Create" class="btn btn-default" />
