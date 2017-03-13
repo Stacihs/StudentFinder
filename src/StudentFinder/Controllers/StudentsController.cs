@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentFinder.Data;
 using StudentFinder.Models;
-using StudentFinder.Models.ViewModels;
+using StudentFinder.ViewModels;
+using StudentFinder.Infrastructure;
 
 namespace StudentFinder.Controllers
 {
@@ -21,7 +22,7 @@ namespace StudentFinder.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string searchString, int? page, int spaceListFilter = 0)
+        public async Task<IActionResult> Index(string searchString, int? page, int spaceListFilter = 0, int some_ID = 5)
         {
 
             //var spaceSort = _context.StudentScheduleSpace.OrderBy(c => c. Space.Id).Select(a => new { id = a.i})
@@ -38,7 +39,7 @@ namespace StudentFinder.Controllers
             //IQueryable<StudentsViewModel> studentsVM;
 
             var student = new Student();
-            var some_ID = 5;
+            //var some_ID = 5;
 
             var s_all = _context.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
             //var s_all = student.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
@@ -65,14 +66,11 @@ namespace StudentFinder.Controllers
                 Room = s.Space.Room,
                 Location = s.Space.Location,
                 StudentSchoolId = s.Student.StudentSchoolId
-            }).ToList();
+            });
 
+            int pageSize = 25;
 
-            
-
-           
-
-            return View(test);
+            return View(await PaginatedList<StudentsViewModel>.CreateAsync(test.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Students/Details/5
@@ -217,7 +215,6 @@ namespace StudentFinder.Controllers
                 Location = s.Space.Location
             });
 
-          
         }
     }
 }
