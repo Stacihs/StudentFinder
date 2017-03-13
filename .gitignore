@@ -9,3 +9,5 @@ src/StudentFinder/bin/Debug/netcoreapp1.0/StudentFinder.runtimeconfig.dev.json
 *.rsp
 src/StudentFinder/obj/Debug/netcoreapp1.0/.SDKVersion
 *.SDKVersion
+*.dll
+*.SDKVersion
