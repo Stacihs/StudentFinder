@@ -4,6 +4,10 @@
     ViewData["Title"] = "Index";
     SelectList spaceList = ViewBag.SpaceSelectList;
     SelectList scheduleList = ViewBag.ScheduleSelectList;
+    if (string.IsNullOrEmpty(ViewBag.searchString))
+    {
+        ViewBag.searchString = "Search Student Name";
+    }
 
 }
 
@@ -18,7 +22,7 @@
             <th>
                 <form method="post" id="SearchString" action="@Url.Action("Index", "Students")">
                     <div class="form-group no-color has-feedback">
-                        <input class="form-control hasclear" type="text" id="SearchString" name="SearchString" value="@ViewData["currentFilter"]" />
+                        <input class="form-control hasclear" type="text" id="SearchString" name="SearchString" value="" placeholder="@ViewBag.searchString"/>
                         <span class="clearer gliphyicon gliphyicon-remove form-control-feedback"></span>
                     </div>
                 </form>
@@ -47,7 +51,9 @@
             <th>
                 @Html.DisplayNameFor(model => model.lName)
             </th>
-            <th></th>
+            <th>
+                @Html.DisplayNameFor(model => model.Room)
+            </th>
         </tr>
     </thead>
     <tbody>
@@ -66,6 +72,9 @@
                 @Html.DisplayFor(modelItem => item.lName)
             </td>
             <td>
+                @Html.DisplayFor(modelItem => item.Room)
+            </td>
+            <td>
                 <a asp-action="Edit" asp-route-id="@item.StudentId">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.StudentId">Details</a> |
                 <a asp-action="Delete" asp-route-id="@item.StudentId">Delete</a>
@@ -78,7 +87,7 @@
 {
     <script>
     $(document).ready(function(){
-        $("#spacelistFilter").change(function () {
+        $("#spaceListFilter").change(function () {
             $("#spaceFilter").submit();
         });
 

@@ -22,6 +22,8 @@ namespace StudentFinder.Models
         public string lName { get; set; }
         [Required]
         public string GradeLevel { get; set; }
+        [Required]
+        public bool IsActive { get; set; }
 
         //public virtual Student Students { get; set; }
         public ICollection<StudentScheduleSpace> StudentScheduleSpace { get; set; }
