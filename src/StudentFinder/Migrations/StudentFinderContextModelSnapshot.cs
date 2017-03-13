@@ -21,17 +21,13 @@ namespace StudentFinder.Migrations
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime?>("From");
-
-                    b.Property<string>("FromValue")
+                    b.Property<string>("From")
                         .IsRequired();
 
                     b.Property<string>("Label")
                         .IsRequired();
 
-                    b.Property<DateTime?>("To");
-
-                    b.Property<string>("ToValue")
+                    b.Property<string>("To")
                         .IsRequired();
 
                     b.HasKey("Id");

@@ -19,7 +19,9 @@ namespace StudentFinder.Controllers
             _context = context;    
         }
 
-   
+        // GetPeriod method
+
+       
 
         // Get Schedule
         public async Task<IActionResult> Index()
@@ -55,15 +57,15 @@ namespace StudentFinder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,FromValue,From,Label,ToValue,To")] Schedule schedule)
+        public async Task<IActionResult> Create([Bind("Id,From,Label,To")] Schedule schedule)
         {
-            // if (ModelState.IsValid)
-           // {
+            if (ModelState.IsValid)
+            {
                 _context.Add(schedule);
                 await _context.SaveChangesAsync();
                 return RedirectToAction("Index");
-           // }
-            //return View(schedule);
+            }
+            return View(schedule);
         }
 
         // GET Edit Period
