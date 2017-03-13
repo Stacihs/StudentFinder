@@ -6,7 +6,7 @@
     ViewData["Title"] = "Create";
     SelectList spaceList = ViewBag.SpaceSelectList;
     SelectList gradeLevel = ViewBag.gradeLevelSelectList;
-    SelectList scheduleList = ViewBag.ScheduleSelectList;
+    SelectList scheduleList = ViewBag.ScheduleList;
 
 }
 
@@ -68,20 +68,20 @@
             </div>
         </div>
 
-        <table>
+        @*<table>
             <tbody>
                 @foreach (var item in scheduleList)
                 {
                     <tr>
                         <td>
-                            @*@Html.DisplayFor(x => item.id)
-                            @Html.DisplayFor(x => item.Group)*@
+                            @Html.DisplayFor()
+                            @Html.DisplayFor(x => item.Group)
                         </td>
                     </tr>
                 }
 
             </tbody>
-        </table>
+        </table>*@
 
 
 

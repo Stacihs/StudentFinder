@@ -96,6 +96,7 @@ namespace StudentFinder.Controllers
 
             var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
             ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
+            //ViewBag.ScheduleList = new List<Schedule>();
 
             ViewBag.gradeLevelSelectList = new SelectList(GradeLevelsDropDown.GetGradeLevel(), "Value", "Text");
 
@@ -115,7 +116,9 @@ namespace StudentFinder.Controllers
             ViewBag.SpaceSelectList = new SelectList(spaceList, "id", "value");
             
             var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
-            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
+            //ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
+            ViewBag.ScheduleList = new List<Schedule>();
+
 
             ViewBag.gradeLevelSelectList = new SelectList(GradeLevelsDropDown.GetGradeLevel(), "Value", "Text");
 
