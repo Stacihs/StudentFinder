@@ -16,6 +16,7 @@ namespace StudentFinder.Controllers
 
         public SchoolsController(StudentFinderContext context)
         {
+              
             _context = context;    
         }
 

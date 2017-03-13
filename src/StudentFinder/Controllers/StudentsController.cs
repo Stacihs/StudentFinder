@@ -21,7 +21,7 @@ namespace StudentFinder.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string searchString, int? page)
+        public async Task<IActionResult> Index(string searchString, int? page, int spaceListFilter = 0)
         {
 
             //var spaceSort = _context.StudentScheduleSpace.OrderBy(c => c. Space.Id).Select(a => new { id = a.i})
@@ -29,16 +29,31 @@ namespace StudentFinder.Controllers
             var spaceList = _context.Space.OrderBy(s => s.Room).Select(a => new { id = a.Id, value = a.Room }).ToList();
             ViewBag.SpaceSelectList = new SelectList(spaceList, "id", "value");
 
-            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.Label }).ToList();
-            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value");
+            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
+            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
 
-            
-            IQueryable<StudentsViewModel> studentsVM;
+            ViewBag.searchString = searchString;
+
+
+            //IQueryable<StudentsViewModel> studentsVM;
 
             var student = new Student();
-            var some_ID = 1;
+            var some_ID = 5;
 
             var s_all = _context.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
+            //var s_all = student.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
+
+            if (spaceListFilter > 0)
+            {
+                s_all = s_all.Where(s => s.SpaceId == spaceListFilter);
+            }
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                s_all = s_all.Where(s => s.Student.fName.Contains(searchString) || s.Student.lName.Contains(searchString));
+            }
+
+            
 
             var test = s_all.Select(s => new StudentsViewModel()
             {
@@ -48,11 +63,16 @@ namespace StudentFinder.Controllers
                 GradeLevel = s.Student.GradeLevel,
                 SpaceId = s.Space.Id,
                 Room = s.Space.Room,
-                Location = s.Space.Location
-            });
-                
+                Location = s.Space.Location,
+                StudentSchoolId = s.Student.StudentSchoolId
+            }).ToList();
+
+
             
-            return View(await _context.Student.ToListAsync());
+
+           
+
+            return View(test);
         }
 
         // GET: Students/Details/5
