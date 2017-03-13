@@ -7,7 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using StudentFinder.Data;
 using StudentFinder.Models;
-using StudentFinder.Models.ViewModels;
+using StudentFinder.ViewModels;
+using StudentFinder.Infrastructure;
 
 namespace StudentFinder.Controllers
 {
@@ -21,7 +22,7 @@ namespace StudentFinder.Controllers
         }
 
         // GET: Students
-        public async Task<IActionResult> Index(string searchString, int? page, int spaceListFilter = 0)
+        public async Task<IActionResult> Index(string searchString, int? page, int spaceListFilter = 0, int some_ID = 3)
         {
 
             //var spaceSort = _context.StudentScheduleSpace.OrderBy(c => c. Space.Id).Select(a => new { id = a.i})
@@ -32,13 +33,15 @@ namespace StudentFinder.Controllers
             var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
             ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
 
+            ViewBag.gradeLevelSelectList = new SelectList(GradeLevelsDropDown.GetGradeLevel(), "Value", "Text");
+           
             ViewBag.searchString = searchString;
 
 
             //IQueryable<StudentsViewModel> studentsVM;
 
             var student = new Student();
-            var some_ID = 5;
+            //var some_ID = 5;
 
             var s_all = _context.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
             //var s_all = student.StudentScheduleSpace.Where(s => s.ScheduleId == some_ID).Select(x => x);
@@ -65,14 +68,11 @@ namespace StudentFinder.Controllers
                 Room = s.Space.Room,
                 Location = s.Space.Location,
                 StudentSchoolId = s.Student.StudentSchoolId
-            }).ToList();
+            });
 
+            int pageSize = 25;
 
-            
-
-           
-
-            return View(test);
+            return View(await PaginatedList<StudentsViewModel>.CreateAsync(test.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Students/Details/5
@@ -82,6 +82,12 @@ namespace StudentFinder.Controllers
             {
                 return NotFound();
             }
+
+            var spaceList = _context.Space.OrderBy(s => s.Room).Select(a => new { id = a.Id, value = a.Room }).ToList();
+            ViewBag.SpaceSelectList = new SelectList(spaceList, "id", "value");
+
+            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
+            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
 
             var student = await _context.Student.SingleOrDefaultAsync(m => m.Id == id);
             if (student == null)
@@ -97,6 +103,12 @@ namespace StudentFinder.Controllers
         {
             var spaceList = _context.Space.OrderBy(s => s.Room).Select(a => new { id = a.Id, value = a.Room }).ToList();
             ViewBag.SpaceSelectList = new SelectList(spaceList, "id", "value");
+            
+            var scheduleList = _context.Schedule.OrderBy(s => s.Label).Select(a => new { id = a.Id, value = a.From, value2 = a.To }).ToList();
+            ViewBag.ScheduleSelectList = new SelectList(scheduleList, "id", "value", "value2");
+
+            ViewBag.gradeLevelSelectList = new SelectList(GradeLevelsDropDown.GetGradeLevel(), "Value", "Text");
+
 
             return View();
         }
@@ -106,7 +118,7 @@ namespace StudentFinder.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,GradeLevel,StudentSchoolId,StudentsSchool,fName,lName")] Student student)
+        public async Task<IActionResult> Create([Bind("Id,GradeLevel,StudentSchoolId,StudentsSchool,fName,lName,IsActive")] Student student)
         {
             if (ModelState.IsValid)
             {
@@ -217,7 +229,6 @@ namespace StudentFinder.Controllers
                 Location = s.Space.Location
             });
 
-          
         }
     }
 }
